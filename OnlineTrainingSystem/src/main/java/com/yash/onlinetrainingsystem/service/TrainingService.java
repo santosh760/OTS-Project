@@ -101,8 +101,8 @@ public class TrainingService implements com.yash.onlinetrainingsystem.repository
 
 	@Override
 	public Optional<Training> findById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return trainingRepository.findById(id);
 	}
 
 	@Override

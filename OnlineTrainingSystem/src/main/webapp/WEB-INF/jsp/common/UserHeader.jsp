@@ -36,13 +36,13 @@
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#portfolio">Add Training</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="EnrollTraining">Enroll Training</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Training Feedback</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="EditTrainingFeedback">Training Feedback</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
-            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="#about">Training Status</a>
+            <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="TraingStatus">Training Status</a>
           </li>
           <li class="nav-item mx-0 mx-lg-1">
             <a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="showLogin" >Logout</a>

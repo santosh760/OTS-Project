@@ -22,7 +22,6 @@
 						<td>Email</td>
 						<td>Contact</td>
 						<td>Amount</td>
-						<td>Feedbacks</td>
 					</tr>
 				</thead>
 				<tbody class=" table-secondary">
@@ -35,7 +34,6 @@
 							<td>${user.userEmail}</td>
 							<td>${user.userContact}</td>
 							<td>${user.userAmount}</td>
-							<td>${user.userFeedback}</td>
 						</tr>
 					</c:forEach>
 				</tbody>

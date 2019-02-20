@@ -1,33 +1,51 @@
 package com.yash.onlinetrainingsystem.domain;
 
+import java.io.Serializable;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "User")
+@Table(name = "User_ots")
 public class User {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="User_ID")
 	private int userId;
+	
+	@Column(name="Name")
 	private String uName;
+	
+	@Column(name="User_Name")
 	private String userName;
+	
+	@Column(name="User_Role")
 	private String userRole;
+	
+	@Column(name="User_Password")
 	private String password;
+	
+	@Column(name="User_Email")
 	private String userEmail;
+	
+	@Column(name="User_Contact")
 	private int userContact;
+	
+	@Column(name="User_Amount")
 	private int userAmount;
+	
+	@Column(name="User_Feedback")
 	private String userFeedback;
 
-	@ManyToMany(mappedBy = "users")
+	@OneToMany(mappedBy = "users", cascade = CascadeType.ALL , targetEntity = Training.class)
 	private Set<Training> trainings;
 
 	public int getUserId() {

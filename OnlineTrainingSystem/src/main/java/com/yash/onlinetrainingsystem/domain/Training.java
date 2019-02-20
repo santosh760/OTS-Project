@@ -1,32 +1,39 @@
 package com.yash.onlinetrainingsystem.domain;
 
-import java.util.Set;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="Training")
-public class Training {
+@Table(name="Training_ots")
+public class Training{
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="Training_ID")
 	private int trainingId;
+	
+	@Column(name="Training_Name")
 	private String trainingName;
+	
+	@Column(name="Training_Status")
 	private String trainingStatus;
+	
+	@Column(name="Training_Feedback")
 	private String trainingFeedback;
+	
+	@Column(name="Training_Amount")
 	private int trainingAmount;
 	
-	@ManyToMany(cascade=CascadeType.ALL)
-	@JoinTable(name = "Training_User", joinColumns = { @JoinColumn(name = "trainingId") }, inverseJoinColumns = { @JoinColumn(name = "userId") })
-	private Set<User> users;
+	
+	@ManyToOne
+	@JoinColumn(name = "User_ID")
+	private User users;
 
 	public int getTrainingId() {
 		return trainingId;
@@ -68,11 +75,11 @@ public class Training {
 		this.trainingAmount = trainingAmount;
 	}
 
-	public Set<User> getUsers() {
+	public User getUsers() {
 		return users;
 	}
 
-	public void setUsers(Set<User> users) {
+	public void setUsers(User users) {
 		this.users = users;
 	}
 
@@ -133,7 +140,7 @@ public class Training {
 	}
 
 	public Training(int trainingId, String trainingName, String trainingStatus, String trainingFeedback,
-			int trainingAmount, Set<User> users) {
+			int trainingAmount, User users) {
 		super();
 		this.trainingId = trainingId;
 		this.trainingName = trainingName;
