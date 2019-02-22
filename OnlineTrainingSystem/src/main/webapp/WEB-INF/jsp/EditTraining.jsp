@@ -23,14 +23,16 @@
 					<c:forEach items="${listOfTraining}" var="training">
 						
 						<tr style="color: black;">
-						<form action="editTraining?trainingId=${training.trainingId}" method="post">
+						<form method="post">
 							<td><input type="text" value=${training.trainingName} name="trainingName"></td>
 							<td>
 							<input type="radio"  name="trainingStatus" value="Active" checked="checked" >Active
 							<input type="radio"  name="trainingStatus" value="In-Active">In-Active
 							</td>
 							<td><input type="text" value=${training.trainingAmount} name="trainingAmount"></td>
-							<td><input type="submit" value="Edit"></td>
+							<td><input type="submit" value="Edit" formaction="editTraining?trainingId=${training.trainingId}">&nbsp;&nbsp;
+								<input type="submit" value="Delete" formaction="deleteTraining?trainingId=${training.trainingId}">
+							</td>
 							</form>
 						</tr>
 						

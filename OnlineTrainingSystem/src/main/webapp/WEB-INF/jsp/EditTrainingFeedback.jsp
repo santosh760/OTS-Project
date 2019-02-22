@@ -22,9 +22,9 @@
 					<c:forEach items="${listOfTraining}" var="training">
 						
 						<tr style="color: black;">
-						<form action="editTraining?trainingId=${training.trainingId}" method="post">
+						<form action="editTrainingFeedback?trainingId=${training.trainingId}" method="post">
 							<td><input type="text" value=${training.trainingName} name="trainingName"></td>
-							<td><input type="text" name="trainingFeedback"></td>
+							<td><input type="text" name="trainingFeedback" placeholder="Feedback"></td>
 							<td><input type="submit" value="Give Feedback"></td>
 							</form>
 						</tr>

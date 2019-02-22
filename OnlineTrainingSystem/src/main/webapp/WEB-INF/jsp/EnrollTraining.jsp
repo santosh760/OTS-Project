@@ -25,12 +25,14 @@
 				<tbody class=" table-secondary">
 					<c:forEach items="${listOfTraining}" var="training">
 						<tr style="color: black;">
+						<form action="addUserTraining?trainingId=${training.trainingId}" method="post">
 							<td>${training.trainingId}</td>
 							<td>${training.trainingName}</td>
 							<td>${training.trainingStatus}</td>
 							<td>${training.trainingFeedback}</td>
 							<td>${training.trainingAmount}</td>
-							<td><form action="addUserTraining?trainingId=${training.trainingId}" method="post"><input type="submit" value="Enroll Training"></form></td>
+							<td><input type="submit" value="Enroll Training"></td>
+							</form>
 						</tr>
 					</c:forEach>
 				</tbody>

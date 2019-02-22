@@ -119,7 +119,7 @@ public class TrainingService implements com.yash.onlinetrainingsystem.repository
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		trainingRepository.deleteById(id);
 
 	}
 

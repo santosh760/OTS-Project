@@ -45,11 +45,17 @@ public class ApplicationController {
 		System.out.println(username);
 		System.out.println(password);
 
+		try {
 		User user1 = userService.checkUser(username, password);
 		session.setAttribute("uName", user1.getuName());
 		session.setAttribute("uId", user1.getUserId());
 		System.out.println(user1.getUserRole());
 		return user1.getUserRole();
+		}
+		catch (NullPointerException e) {
+			return "UserRegistration"; 
+		}
+		
 	}
 
 	@RequestMapping(value = "/UserRegistration")
@@ -108,51 +114,61 @@ public class ApplicationController {
 
 	@RequestMapping(value = "/EnrollTraining")
 	public String showEnrollTrainingPage(Model model,HttpSession session) {
-		
-		int userId = (int) session.getAttribute("uId");
-		System.out.println("ye user ID session se milla"+userId);
-		User user = userService.findById(userId).get();
-		
-		List<Training> training = trainingService.findAll();
-		System.out.println(training.toString());
+
+		List<Training> trainingMain = trainingService.findAll();
+		System.out.println(trainingMain.toString());
 
 		List<Training> activeTraining = new ArrayList<>();
-		activeTraining.addAll(training);
+		activeTraining.addAll(trainingMain);
 
+		int userId = (int) session.getAttribute("uId");
+		System.out.println("ye user ID session se milla" + userId);
+		User user = userService.findById(userId).get();
 		
-		for (Training training2 : training) {
+		
+		for (Training training : trainingMain) {
 			try {
-			if (training2.getTrainingStatus().equalsIgnoreCase("In-Active")||training2.getUsers().equals(user)) {
-				activeTraining.remove(training2);
-			}
-			}
-			catch (Exception e) {
+				if (training.getTrainingStatus().equalsIgnoreCase("In-Active")||training.getUsers().contains(user)) {
+					activeTraining.remove(training);
+				}
+			} catch (Exception e) {
 				continue;
 			}
 		}
-		
-		System.out.println(training.toString());
+
+		System.out.println(trainingMain.toString());
 		model.addAttribute("listOfTraining", activeTraining);
 		return "EnrollTraining";
 	}
 
 	@RequestMapping(value = "/addUserTraining")
 	public String addUserTraining(@RequestParam("trainingId") int trainingId, HttpSession session) {
-		System.out.println("UI se aaya training ID"+trainingId);
-		Training training = trainingService.findById(trainingId).get();
-		System.out.println("YE training milla..."+training.toString());
+		
+		Training trainingValue=trainingService.findById(trainingId).get();
+		System.out.println("YE training milla..." + trainingValue.toString());
 
 		int userId = (int) session.getAttribute("uId");
-		System.out.println("ye user ID session se milla"+userId);
+		System.out.println("ye user ID session se milla" + userId);
 		User user = userService.findById(userId).get();
-		System.out.println("ye user aaya..."+user.toString());
-
-		Set<Training> taining1=new HashSet<>();
-		taining1.add(training);
-		user.setTrainings(taining1);
-		userService.save(user);
+		System.out.println("ye user aaya..." + user.toString());
 		
-		System.out.println("user mein training aaya..."+user.getTrainings().toString());
+		int trainingAmount=trainingValue.getTrainingAmount();
+		int userAmount=user.getUserAmount();
+		
+		if(userAmount==0) {
+			user.setUserAmount(trainingAmount);
+		}
+		else {
+			user.setUserAmount(userAmount+trainingAmount);
+		}
+		
+		Set<User> user1=new HashSet<>();
+		user1.add(user);
+		
+		trainingValue.setUsers(user1);
+		trainingService.save(trainingValue);		
+
+		System.out.println("user mein training aaya..." + trainingValue.toString());
 		return "User";
 	}
 
@@ -163,18 +179,18 @@ public class ApplicationController {
 		model.addAttribute("listOfTraining", training);
 		return "EditTraining";
 	}
-	
+
 	@RequestMapping(value = "/editTraining", method = RequestMethod.POST)
 	public String editTraining(@ModelAttribute Training trainingValue) {
 		try {
-			
-			Training training=trainingService.findById(trainingValue.getTrainingId()).get();
-			System.out.println("ye training milla...."+training.toString());
-			
+
+			Training training = trainingService.findById(trainingValue.getTrainingId()).get();
+			System.out.println("ye training milla...." + training.toString());
+
 			training.setTrainingName(trainingValue.getTrainingName());
 			training.setTrainingStatus(trainingValue.getTrainingStatus());
 			training.setTrainingAmount(trainingValue.getTrainingAmount());
-			System.out.println("ye training set huwa..."+training.toString());
+			System.out.println("ye training set huwa..." + training.toString());
 			trainingService.save(training);
 			return "Admin";
 		} catch (Exception e) {
@@ -182,11 +198,67 @@ public class ApplicationController {
 		}
 	}
 	
+	@RequestMapping(value = "/deleteTraining", method = RequestMethod.POST)
+	public String editTraining(@RequestParam("trainingId") int trainingId) {
+		try {
+
+			trainingService.deleteById(trainingId);
+			return "Admin";
+		} catch (Exception e) {
+			return "EditTraining";
+		}
+	}	
+
+	
+	
 	@RequestMapping(value = "/EditTrainingFeedback")
-	public String showEditTrainingFeedbackPage(Model model) {
-		List<Training> training = trainingService.findAll();
-		System.out.println(training.toString());
-		model.addAttribute("listOfTraining", training);
+	public String showEditTrainingFeedbackPage(Model model,HttpSession session) {
+		List<Training> trainingMain = trainingService.findAll();
+		System.out.println(trainingMain.toString());
+		
+		List<Training> activeTraining = new ArrayList<>();
+		activeTraining.addAll(trainingMain);
+
+		int userId = (int) session.getAttribute("uId");
+		System.out.println("ye user ID session se milla" + userId);
+		User user = userService.findById(userId).get();
+		
+		
+		for (Training training : trainingMain) {
+			try {
+				if (training.getTrainingStatus().equalsIgnoreCase("In-Active")||training.getUsers().contains(user)) {
+					activeTraining.remove(training);
+				}
+			} catch (Exception e) {
+				continue;
+			}
+		}
+		model.addAttribute("listOfTraining", activeTraining);
 		return "EditTrainingFeedback";
 	}
+
+	@RequestMapping(value = "/editTrainingFeedback")
+	public String editTrainingFeedbackPage(@RequestParam("trainingId") int trainingId,@RequestParam("trainingFeedback") String trainingFeedback) {
+		Training training = trainingService.findById(trainingId).get();
+		try {
+		
+		System.out.println(training.toString());
+		
+		String priviousFeedback = training.getTrainingFeedback();
+		
+		if (priviousFeedback.equals("")||priviousFeedback.equals(null)) {
+			training.setTrainingFeedback(trainingFeedback);
+		} else {
+			training.setTrainingFeedback(priviousFeedback + " , " + trainingFeedback);
+		}
+		trainingService.save(training);
+		System.out.println("Training UPDATED"+training.getTrainingFeedback());
+		return "User";
+		}
+		catch (Exception e) {
+			training.setTrainingFeedback(trainingFeedback);
+			return "User";
+		}
+	}
+
 }
