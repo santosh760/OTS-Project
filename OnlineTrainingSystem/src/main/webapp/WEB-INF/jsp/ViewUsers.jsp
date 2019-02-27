@@ -22,10 +22,12 @@
 						<td>Email</td>
 						<td>Contact</td>
 						<td>Amount</td>
+						<td>Delete option</td>
 					</tr>
 				</thead>
 				<tbody class=" table-secondary">
 					<c:forEach items="${listOfUsers}" var="user">
+					<c:if test="${user.userRole=='Admin'}">
 						<tr style="color: black;">
 							<td>${user.userId}</td>
 							<td>${user.uName}</td>
@@ -34,7 +36,21 @@
 							<td>${user.userEmail}</td>
 							<td>${user.userContact}</td>
 							<td>${user.userAmount}</td>
+							<td>Can't Delete Admin</td>
 						</tr>
+						</c:if>
+						<c:if test="${user.userRole=='User'}">
+						<tr style="color: black;">
+							<td>${user.userId}</td>
+							<td>${user.uName}</td>
+							<td>${user.userName}</td>
+							<td>${user.userRole}</td>
+							<td>${user.userEmail}</td>
+							<td>${user.userContact}</td>
+							<td>${user.userAmount}</td>
+							<td><form action="deleteUser?userId=${user.userId}" method="post"><input type="submit" value="Delete User"></form></td>
+						</tr>
+						</c:if>
 					</c:forEach>
 				</tbody>
 			</table>

@@ -121,6 +121,7 @@ $('.message a').click(function(){
       <input type="password" placeholder="password" name="password"/>
       <button>login</button>
       <p class="message">Not registered? <a href="UserRegistration">Create an account</a></p>
+      <br><a style="color: red;">${msg}</a>
     </form>
   </div>
 </div>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.yash.onlinetrainingsystem.domain.Training;
 import com.yash.onlinetrainingsystem.domain.User;
@@ -64,11 +65,13 @@ public class ApplicationController {
 	}
 
 	@RequestMapping(value = "/addUser", method = RequestMethod.POST)
-	public String addUser(@ModelAttribute User user) {
+	public String addUser(@ModelAttribute User user,Model model) {
 		try {
 			userService.save(user);
+			model.addAttribute("msg", "Registration sucess..!!");
 			return "login";
 		} catch (Exception e) {
+			model.addAttribute("msg", "Registration Failed..");
 			return "UserRegistration";
 		}
 	}
@@ -261,4 +264,20 @@ public class ApplicationController {
 		}
 	}
 
+	
+	@RequestMapping(value = "/deleteUser",method=RequestMethod.POST)
+	public String deleteUser(@RequestParam("userId") int userId) {
+		System.out.println("delete user called..");
+		
+		try {
+			System.out.println(userId);
+			userService.deleteById(userId);
+			System.out.println("deleted..");
+			return "Admin";
+		}
+		catch (Exception e) {
+			return "Admin";
+		}
+		
+	}
 }

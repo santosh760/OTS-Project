@@ -777,6 +777,7 @@ input.checkbox:checked:after {
 	<div class="main-w3layouts wrapper">
 		<h1>Online Training System SignUp Form</h1>
 		<div class="main-agileinfo">
+		<a>${msg}</a>
 			<div class="agileits-top">
 				<form action="addUser" method="post">
 					<input class="text" type="text" name="uName" placeholder="Name" required="required"><br>
